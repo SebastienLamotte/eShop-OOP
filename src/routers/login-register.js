@@ -53,9 +53,10 @@ router.post('/login', async(req, res) => {
         req.session.log_error = "Incorrect identifiers";
         return res.redirect("/login-register");
     } else {
-        req.session.user = user;
-        delete req.session.user.password;
+        const {firstname, lastname, email} = user;
+        req.session.user = {firstname, lastname, email}
         req.session.connected = true;
+        console.log(req.session.user)
 
         req.session.cart = await Cart.findOne({ user: req.session.user._id });
 

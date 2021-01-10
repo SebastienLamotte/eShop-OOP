@@ -12,6 +12,7 @@ const general_router = require('./routers/general-router');
 const logRegis_router = require('./routers/login-register');
 const newsletter_router = require('./routers/newsletter');
 const cart_router = require('./routers/cart');
+const admin_router = require('./routers/admin');
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname,'../public');
@@ -43,7 +44,9 @@ app.use(bodyParser.json());
 app.use(logRegis_router);
 app.use(newsletter_router);
 app.use(cart_router);
+app.use(admin_router);
 app.use(general_router);
+
 
 app.listen(3000, () => {
     console.log(`Server up on port ${port}`);

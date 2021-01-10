@@ -18,6 +18,6 @@ const newsletterMemberSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const Newsletter_model = mongoose.model('NewsletterMember', newsletterMemberSchema);
+const Newsletter = mongoose.model('NewsletterMember', newsletterMemberSchema);
 
-module.exports = Newsletter_model;
+module.exports = Newsletter;
