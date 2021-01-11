@@ -53,14 +53,13 @@ router.post('/login', async(req, res) => {
         req.session.log_error = "Incorrect identifiers";
         return res.redirect("/login-register");
     } else {
-        const {firstname, lastname, email} = user;
-        req.session.user = {firstname, lastname, email}
+        const {firstname, lastname, email, _id} = user;
+        req.session.user = {firstname, lastname, email, _id}
         req.session.connected = true;
-        console.log(req.session.user)
 
         req.session.cart = await Cart.findOne({ user: req.session.user._id });
 
-        if (req.session.cart===null) {
+        if (!req.session.cart) {
             cart_session = new Cart({
                 user: req.session.user._id
             });
@@ -72,10 +71,8 @@ router.post('/login', async(req, res) => {
     }  
 })
 
-router.get("/disconnect", async(req, res) => {
-    console.log(req.session, 'session before destroy')
+router.post("/disconnect", async(req, res) => {
     await req.session.destroy();
-    console.log(req.session, 'session after destroy')
     res.redirect('/login-register');
 })
 

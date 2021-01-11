@@ -13,6 +13,8 @@ const logRegis_router = require('./routers/login-register');
 const newsletter_router = require('./routers/newsletter');
 const cart_router = require('./routers/cart');
 const admin_router = require('./routers/admin');
+const user_edit_router = require('./routers/edit-user');
+const address_edit_router = require('./routers/edit-address');
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname,'../public');
@@ -41,10 +43,13 @@ app.use(bodyParser.json());
 
 // Setup routers
 
+
 app.use(logRegis_router);
 app.use(newsletter_router);
 app.use(cart_router);
 app.use(admin_router);
+app.use(user_edit_router);
+app.use(address_edit_router)
 app.use(general_router);
 
 

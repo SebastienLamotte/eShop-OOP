@@ -127,7 +127,7 @@
 						</div>
 					</div>
 				</div>
-				<hr>
+				{{!-- <hr>
                 <div class="row">
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-widget">
@@ -165,7 +165,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </footer>
@@ -201,7 +201,11 @@
     <script src="js/newsletter.js"></script>
     {{#if connected}}
     <script src="js/cart.js"></script>
+    {{else}}
+    <script src="js/shop.js"></script>
     {{/if}}
+    <script src="js/edit-user.js"></script>
+
 </body>
 
 </html>

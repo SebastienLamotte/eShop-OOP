@@ -1,8 +1,9 @@
 const express = require('express');
 const router = new express.Router();
 const Product = require('../db/mongoose_models/Product');
+const auth = require('./../middlewares/auth')
 
-router.get('/product', async (req, res) => {
+router.get('/product', auth, async (req, res) => {
     Object.entries(prices).forEach(async (entry) => {
         let [product, price] = entry;
 

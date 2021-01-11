@@ -1,0 +1,84 @@
+{{>header}}
+{{>headerBanner}}
+<div class="col-lg-8 my-5 mx-auto">
+<!-- .card -->
+    <div class="card card-fluid">
+        <div class="card-header"> Account </div>
+        {{!-- <h4 class="mt-4"> Edit the specific field you want and enter your current password </h4> --}}
+        <!-- .card-body -->
+        <div class="card-body">
+        <!-- form -->
+        <form>
+            <!-- form row -->
+            <div class="form-row">
+            <!-- form column -->
+            <div class="col-md-6 mb-3">
+                <label for="firstname">Change First Name</label>
+                <input type="text" class="form-control" id="firstname" value="" placeholder="{{user.firstname}}"> </div>
+            <!-- /form column -->
+            <!-- form column -->
+            <div class="col-md-6 mb-3">
+                <label for="lastname">Change Last Name</label>
+                <input type="text" class="form-control" id="lastname" value="" placeholder="{{user.lastname}}"> </div>
+            <!-- /form column -->
+            </div>
+            <!-- /form row -->
+            <!-- .form-group -->
+            <div class="form-group">
+                <label for="email">Change Email</label>
+                <input type="email" class="form-control" id="email" value="" placeholder="{{user.email}}"> </div>
+            <!-- /.form-group -->
+            <!-- .form-group -->
+            <div class="form-group">
+                <label for="password">Change Password</label>
+                <input type="password" class="form-control" id="password" value=""> </div>
+            <!-- /.form-group -->
+            <!-- .form-group -->
+            <div class="form-group">
+                <label for="password2">Confirm Change Password</label>
+                <input type="password" class="form-control" id="password2" value=""> </div>
+            {{!-- <div class="form-group">
+            <label for="input05">Username</label>
+            <input type="text" class="form-control" id="input05" value="bent10" required="">
+            <small class="text-muted">Dolores reiciendis, eos accusamus nobis at omnis consequuntur culpa tempore saepe animi.</small>
+            </div> --}}
+            <!-- /.form-group -->
+            <hr>
+            <!-- .form-actions -->
+            <div  class="form-actions">
+            <!-- enable submit btn when user type their current password -->
+                <label for="password_current">Current Password*</label>
+                <input type="password" class="form-control ml-auto mr-3" id="password_current" placeholder="Enter Current Password">
+            </div>
+            {{!-- <div id="submit-div">
+                <button id="submit" type="submit" class="btn btn-primary mt-3" >Update Account</button>
+            </div>
+
+            <div>
+                <button id="delete" type="submit" class="btn btn-danger mt-3" >Delete Account</button>
+            </div> --}}
+
+            <div class="row mt-4">
+                <div id="update_delete" class="col-sm-12 text-center">
+                    <button id="submit" class="btn btn-primary center-block"  >Update Account</button>
+                    <button id="delete" class="btn btn-danger center-block"  >Delete Account</button>
+                </div>
+
+                <div id="confirm_delete" class="col-sm-12 text-center mt-3" style="display: none;">
+                    <button id="unconfirm_delete" class="btn btn-primary center-block mx-2">No, I keep my account</button>
+                    <button id="delete_account" class="btn btn-danger center-block mx-2">Ok, Delete my account</button>
+
+                    {{!-- <form method="POST" action="/deleteAccount">
+                        <button id="delete_account" type="submit" class="btn btn-danger center-block mx-2">Ok, Delete my account</button>
+                    </form> --}}
+                </div>
+            </div>
+        </form>
+        <!-- /form -->
+        </div>
+        <!-- /.card-body -->
+    </div>
+<!-- /.card -->
+</div>
+
+{{>footer}}
