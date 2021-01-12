@@ -2,7 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const Cart = require('../db/mongoose_models/Cart');
 const Product = require('../db/mongoose_models/Product');
-const auth = require('./../middlewares/auth')
+const auth = require('./../middlewares/auth');
 
 // Send the images and the prices to the front
 router.post('/getPrices&Images', auth, async (req, res) => {
@@ -46,7 +46,7 @@ router.post('/addToCart', auth, async (req, res) => {
     cart.articles[req.body.name] = req.body.amount;
     req.session.cart = cart;
     let update = cart.articles;
-    cart = await Cart.updateOne({ user: req.session.user._id }, { articles: update})
+    cart = await Cart.updateOne({ user: req.session.user._id }, { articles: update })
 
     res.send()
 })

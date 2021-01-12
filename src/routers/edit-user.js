@@ -55,7 +55,7 @@ router.post('/deleteAccount', auth, async (req, res) => {
     await User.deleteOne({ _id: req.session.user._id});
     await req.session.destroy();
     res.redirect('/login-register');
-    console.log(req.session)
+    console.log(req.session);
 })
 
 

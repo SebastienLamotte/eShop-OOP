@@ -4,19 +4,17 @@
 //     return data;
 // }
 
+
+
 const fetchData = async (url) => {
     let response = await fetch(url, { method: "POST"})
     let data = await response.json();
     return data;
 }
 
-
-
 // To display the card on load (from the previous session for example)
 const shoppingCart = async () => {
     const data = await fetchData('/initCart');
-    // const response = await fetch('/initCart', { method: "POST"});
-    // const data = await response.json();
     const prices_and_images = await fetchData('/getPrices&Images')
     
     if (Object.entries(data.articles)) {
@@ -37,16 +35,15 @@ const shoppingCart = async () => {
     if (document.URL === "http://localhost:3000/shop") {  
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
-                
                 // Setup for the price cart-side part
                 const price = Number(this.parentNode.parentNode.parentNode.querySelector(".why-text h5").innerHTML.replace("€", ""));
-                let total = Number(document.querySelector("#price-total").innerHTML)
+                let total = Number(document.querySelector("#price-total").innerHTML);
                 document.querySelector("#price-total").innerHTML = (price + total).toFixed(2);
                 
                 // Setup to insert the new item in the cart-sidebar
                 if (document.querySelector("#" + this.id + "_li")) {
                     let amount = Number(document.querySelector("#amount_" + this.id).innerHTML)
-                    amount ++
+                    amount ++;
                     document.querySelector("#amount_" + this.id).innerHTML = amount
                     document.querySelector("#article_total_" + this.id).innerHTML = (amount * price).toFixed(2)
                 } else {
@@ -71,9 +68,7 @@ const shoppingCart = async () => {
                 setTimeout(() => {
                     this.style.color = 'white';
                 }, 500);
-                console.log(this)
                 amount = Number(document.querySelector("#amount_" + this.id).innerHTML)
-                console.log({name: this.id, amount}, "name & amount")
                 // Sending the data of the purchase to the backend
                 fetch("/addToCart", { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
                     body: JSON.stringify({
@@ -156,7 +151,7 @@ const shoppingCart = async () => {
                 })
             })
     }
-/******************************************* /CHECKOUR ********************************************************/
+/******************************************* /CHECKOUT ********************************************************/
     if (document.URL === "http://localhost:3000/checkout") {
 
         if (Object.entries(data.articles)) {
@@ -208,7 +203,6 @@ const shoppingCart = async () => {
         const dataAPI = await responseAPI.json();
         dataAPI.forEach(element => {
             document.querySelector("#countries").insertAdjacentHTML('beforeend', "<option value="+ element.name +">"+ element.name +"</option>")
-            console.log(element.name);
         });
 
         document.querySelector("#FinalOrder").addEventListener("click", () => {
@@ -217,7 +211,6 @@ const shoppingCart = async () => {
             formFields.forEach(formField => {
                 if (document.querySelector(formField).value ==="") {
                     filled = false;
-                    console.log(formField);
                 }
             });
 

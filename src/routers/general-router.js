@@ -23,9 +23,7 @@ router_get('/cart', 'cart', 'YOUR CART', true);
 router_get('/checkout', 'checkout', 'CHECK OUT', true);
 router_get('/contact-us', 'contact-us', 'CONTACT US');
 router_get('/gallery', 'gallery', 'GALLERY');
-// router_get('/shop-detail', 'shop-detail', 'DETAILS', true);
 router_get('/shop', 'shop', 'SHOP');
-// router_get('/wishlist', 'wishlist', 'WISH LIST', true);
 router_get('/my-account', 'my-account', 'MY ACCOUNT', true);
 router_get('/*', '404', 'PAGE NOT FOUND');
 

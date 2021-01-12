@@ -128,6 +128,7 @@
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
+                        {{#if connected}}
                         <li class="dropdown active">
                             <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
@@ -135,12 +136,15 @@
 								{{!-- <li><a href="shop-detail">Shop Detail</a></li> --}}
                                 <li><a href="cart">Cart</a></li>
                                 <li><a href="checkout">Checkout</a></li>
-                                {{#if connected}}
-                                <li><a href="my-account">My Account</a></li>
-                                {{/if}}
+                                
+                                {{!-- <li><a href="my-account">My Account</a></li> --}}
+                                
                                 {{!-- <li><a href="wishlist">Wishlist</a></li> --}}
                             </ul>
                         </li>
+                        {{else}}
+                        <li class="nav-item"><a class="nav-link" href="shop">Shop</a></li>
+                        {{/if}}
                         <li class="nav-item"><a class="nav-link" href="gallery">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact-us">Contact Us</a></li>
                     </ul>

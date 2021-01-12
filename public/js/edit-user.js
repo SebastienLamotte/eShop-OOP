@@ -21,6 +21,7 @@ if (document.URL === "http://localhost:3000/user") {
         }
         if (errors.length === 0) {
             console.log("send");
+
             fetch("/edit-user", { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8" },
                 body: JSON.stringify({
                     firstname,
