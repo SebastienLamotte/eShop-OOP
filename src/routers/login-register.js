@@ -53,7 +53,7 @@ router.post('/login', async(req, res) => {
         req.session.log_error = "Incorrect identifiers";
         return res.redirect("/login-register");
     } else {
-        const {firstname, lastname, email, _id} = user;
+        const { firstname, lastname, email, _id } = user;
         req.session.user = {firstname, lastname, email, _id}
         req.session.connected = true;
 
