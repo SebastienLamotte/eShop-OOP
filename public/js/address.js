@@ -1,4 +1,4 @@
-if (document.URL === process.env.URL + "/address") {  
+if (document.URL === (("http://localhost:3000")|| "https://e-shop-lamotte.herokuapp.com") + "/address") {  
     const address = async () => {
         const responseAPI = await fetch('https://restcountries.eu/rest/v2/all')
         dataAPI = await responseAPI.json()
