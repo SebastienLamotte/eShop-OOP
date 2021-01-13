@@ -42,8 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Setup routers
-
-
 app.use(logRegis_router);
 app.use(newsletter_router);
 app.use(cart_router);
