@@ -33,7 +33,7 @@ const shoppingCart = async () => {
 
 //********************************************* /SHOP **************************************************/
     // if (document.URL === process.env.URL + "/shop") { 
-    if (document.URL === ("http://localhost:3000/shop" || "https://e-shop-lamotte.herokuapp.com/shop")) {  
+    if (document.URL === "http://localhost:3000/shop" || document.URL === "https://e-shop-lamotte.herokuapp.com/shop") {
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
                 // Setup for the price cart-side part
