@@ -32,7 +32,7 @@ const shoppingCart = async () => {
     }
 
 //********************************************* /SHOP **************************************************/
-    if (document.URL === "http://localhost:3000/shop") {  
+    if (document.URL === process.env.URL + "/shop") {  
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
                 // Setup for the price cart-side part
@@ -81,7 +81,7 @@ const shoppingCart = async () => {
     }   
 
 /************************************************ /CART ******************************************************/
-    if (document.URL === "http://localhost:3000/cart") {
+    if (document.URL === process.env.URL + "/cart") {
 
             if (Object.entries(data.articles)) {
                 Object.entries(data.articles).forEach(entry => {
@@ -152,7 +152,7 @@ const shoppingCart = async () => {
             })
     }
 /******************************************* /CHECKOUT ********************************************************/
-    if (document.URL === "http://localhost:3000/checkout") {
+    if (document.URL === process.env.URL + "/checkout") {
 
         if (Object.entries(data.articles)) {
             Object.entries(data.articles).forEach(entry => {

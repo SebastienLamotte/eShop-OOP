@@ -1,4 +1,4 @@
-if (document.URL === "http://localhost:3000/user") {
+if (document.URL === process.env.URL + "/user") {
     document.querySelector("#submit").addEventListener("click", (e) => {
         e.preventDefault()
         let errors;
