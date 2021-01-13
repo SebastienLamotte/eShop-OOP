@@ -33,7 +33,7 @@ const shoppingCart = async () => {
 
 //********************************************* /SHOP **************************************************/
     // if (document.URL === process.env.URL + "/shop") { 
-    if (document.URL === (("http://localhost:3000")|| "https://e-shop-lamotte.herokuapp.com") + "/shop") {  
+    if (document.URL === ("http://localhost:3000/shop" || "https://e-shop-lamotte.herokuapp.com/shop")) {  
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
                 // Setup for the price cart-side part
@@ -83,7 +83,7 @@ const shoppingCart = async () => {
 
 /************************************************ /CART ******************************************************/
     // if (document.URL === process.env.URL + "/cart") {
-    if (document.URL === (("http://localhost:3000")|| "https://e-shop-lamotte.herokuapp.com") + "/cart") {  
+    if (document.URL === ("http://localhost:3000/cart" || "https://e-shop-lamotte.herokuapp.com/cart")) {  
             if (Object.entries(data.articles)) {
                 Object.entries(data.articles).forEach(entry => {
                     let [key, value] = entry;
@@ -154,7 +154,7 @@ const shoppingCart = async () => {
     }
 /******************************************* /CHECKOUT ********************************************************/
     // if (document.URL === process.env.URL + "/checkout") {
-    if (document.URL === (("http://localhost:3000")|| "https://e-shop-lamotte.herokuapp.com") + "/checkout") {  
+    if (document.URL === ("http://localhost:3000/checkout" || "https://e-shop-lamotte.herokuapp.com/checkout")) {  
         if (Object.entries(data.articles)) {
             Object.entries(data.articles).forEach(entry => {
                 let [key, value] = entry;
