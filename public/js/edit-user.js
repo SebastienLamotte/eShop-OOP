@@ -1,4 +1,4 @@
-if (document.URL === process.env.URL + "/user") {
+if (document.URL === "http://localhost:3000/user" || document.URL === "https://e-shop-lamotte.herokuapp.com/user") {
     document.querySelector("#submit").addEventListener("click", (e) => {
         e.preventDefault()
         let errors;

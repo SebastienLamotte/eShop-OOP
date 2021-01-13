@@ -83,7 +83,7 @@ const shoppingCart = async () => {
 
 /************************************************ /CART ******************************************************/
     // if (document.URL === process.env.URL + "/cart") {
-    if (document.URL === ("http://localhost:3000/cart" || "https://e-shop-lamotte.herokuapp.com/cart")) {  
+    if (document.URL === "http://localhost:3000/cart" || document.URL === "https://e-shop-lamotte.herokuapp.com/cart") {
             if (Object.entries(data.articles)) {
                 Object.entries(data.articles).forEach(entry => {
                     let [key, value] = entry;
@@ -154,7 +154,7 @@ const shoppingCart = async () => {
     }
 /******************************************* /CHECKOUT ********************************************************/
     // if (document.URL === process.env.URL + "/checkout") {
-    if (document.URL === ("http://localhost:3000/checkout" || "https://e-shop-lamotte.herokuapp.com/checkout")) {  
+    if (document.URL === "http://localhost:3000/checkout" || document.URL === "https://e-shop-lamotte.herokuapp.com/checkout") {
         if (Object.entries(data.articles)) {
             Object.entries(data.articles).forEach(entry => {
                 let [key, value] = entry;
