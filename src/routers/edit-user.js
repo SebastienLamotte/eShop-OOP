@@ -2,7 +2,8 @@ const express = require('express');
 const router = new express.Router();
 const User = require('./../db/mongoose_models/User');
 const bcrypt = require('bcrypt');
-const auth = require('./../middlewares/auth')
+const auth = require('./../middlewares/auth');
+const Cart = require('../db/mongoose_models/Cart');
 
 router.get('/user', auth, (req, res) => {
     res.render('user', {
@@ -23,9 +24,6 @@ router.post('/edit-user', auth, async (req, res) => {
             }
 
             const data = {};
-            // data = {firstname, lastname, email} = req.body
-            // console.log(req.body);
-            // console.log(data, 'data');
             Object.entries(req.body).forEach( async entry => {
                 let [key, value] = entry;
                 if (value !== '') {
@@ -52,7 +50,8 @@ router.post('/edit-user', auth, async (req, res) => {
 })
 
 router.post('/deleteAccount', auth, async (req, res) => {
-    await User.deleteOne({ _id: req.session.user._id});
+    await User.deleteOne({ _id: req.session.user._id });
+    await Cart.deleteOne({ user: req.session.user._id });
     await req.session.destroy();
     res.redirect('/login-register');
     console.log(req.session);

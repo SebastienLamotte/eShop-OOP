@@ -15,6 +15,7 @@ const cart_router = require('./routers/cart');
 const admin_router = require('./routers/admin');
 const user_edit_router = require('./routers/edit-user');
 const address_edit_router = require('./routers/edit-address');
+const searchBar_router = require('./routers/searchBar')
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname,'../public');
@@ -49,6 +50,7 @@ app.use(admin_router);
 app.use(user_edit_router);
 app.use(address_edit_router)
 app.use(general_router);
+app.use(searchBar_router);
 
 
 app.listen(port, () => {

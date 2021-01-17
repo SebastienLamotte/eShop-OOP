@@ -35,7 +35,7 @@ router.post('/changeQuant', auth, async (req, res) => {
     cart.articles[req.body.article] = req.body.amount;
     req.session.cart = cart;
     let update = cart.articles;
-    cart = await Cart.updateOne({ user: req.session.user._id }, { articles: update})
+    cart = await Cart.updateOne({ user: req.session.user._id }, { articles: update });
     res.send()
 })
 

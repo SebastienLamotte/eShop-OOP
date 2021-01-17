@@ -126,7 +126,7 @@ const shoppingCart = async () => {
                             article,
                             amount
                         }),
-                    })
+                    });
                 })
             });
 

@@ -102,12 +102,12 @@
 					<div class="col-lg-4 col-md-12 col-sm-12">
 						<div class="footer-top-box">
 							<h3>Newsletter</h3>
-							<form method="POST" action="/newsletter" class="newsletter-box">
+							<form class="newsletter-box">
 								<div class="form-group">
 									<input id="email-newsletter" type="email" name="email" placeholder="Email Address*" />
 									<i class="fa fa-envelope"></i>
 								</div>
-								<button id="btn-newsletter" class="btn hvr-hover" type="submit">Submit</button>
+								<button id="btn-newsletter" class="btn hvr-hover">Submit</button>
 							</form>
 						</div>
 					</div>
@@ -199,15 +199,14 @@
     <script src="js/contact-form-script.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/newsletter.js"></script>
+    <script src="js/searchBar.js"></script>
     {{#if connected}}
     <script src="js/cart.js"></script>
     <script src="js/edit-user.js"></script>
-    <script src='js/edit-address.js'></script>
+    <script src='js/address.js'></script>
     {{else}}
     <script src="js/shop.js"></script>
     {{/if}}
-    
-
 </body>
 
 </html>
