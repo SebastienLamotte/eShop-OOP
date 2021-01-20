@@ -5,7 +5,7 @@ const Product = require('../db/mongoose_models/Product');
 const auth = require('./../middlewares/auth');
 
 // Send the images and the prices to the front
-router.post('/getPrices&Images', auth, async (req, res) => {
+router.post('/products', async (req, res) => {
     const products = await Product.find({});
     const final = {};
     products.forEach(element => {
@@ -25,7 +25,7 @@ router.post('/initCart', auth, async (req, res) => {
     })
     let update = req.session.cart.articles;
     await Cart.updateOne({ user: req.session.user._id }, { articles : update })
-    res.send(req.session.cart)
+    res.send(req.session.cart.articles)
 })
 
 // Change dynamicaly the amount of the products in the db

@@ -12,6 +12,7 @@ routerGet(router, '/gallery', 'gallery', 'GALLERY');
 routerGet(router, '/shop', 'shop', 'SHOP');
 routerGet(router, '/my-account', 'my-account', 'MY ACCOUNT', true);
 routerGet(router, '/found', 'found', 'SEARCH RESULTS')
+routerGet(router, '/address-payment', 'address-payment','EDIT MY ADDRESS', true)
 routerGet(router, '/*', '404', 'PAGE NOT FOUND');
 
 module.exports = router;

@@ -8,7 +8,8 @@ const cartSchema = new mongoose.Schema({
     },
     user : {
         type: String,
-        require: true
+        require: true,
+        unique: true
     }
 }, { minimize: false });
 

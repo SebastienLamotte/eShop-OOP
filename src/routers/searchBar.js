@@ -9,7 +9,7 @@ router.post('/search', (req, res) => {
         fs.readdirSync(searchFolder).forEach(file => {
             if (!req.session.connected) {
                 switch (file) {
-                    case 'address.hbs' :
+                    case 'address-payment.hbs' :
                         return;
                     case 'cart.hbs' :
                         return;

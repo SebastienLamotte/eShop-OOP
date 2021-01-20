@@ -41,7 +41,7 @@ router.post('/edit-user', auth, async (req, res) => {
 
             await User.updateOne({ _id: req.session.user._id }, data)
         } else {
-            console.log("pas d'user :/")
+            console.log("no user :/")
         }
     } catch (e) {
         console.log(e);

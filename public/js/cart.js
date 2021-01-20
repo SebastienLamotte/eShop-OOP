@@ -1,11 +1,3 @@
-// const getPrice = async () => {
-//     let response = await fetch('/getPrices&Images', { method: "POST"})
-//     let data = await response.json();
-//     return data;
-// }
-
-
-
 const fetchData = async (url) => {
     let response = await fetch(url, { method: "POST"})
     let data = await response.json();
@@ -15,10 +7,11 @@ const fetchData = async (url) => {
 // To display the card on load (from the previous session for example)
 const shoppingCart = async () => {
     const data = await fetchData('/initCart');
-    const prices_and_images = await fetchData('/getPrices&Images')
+    const prices_and_images = await fetchData('/products')
     
-    if (Object.entries(data.articles)) {
-        Object.entries(data.articles).forEach(entry => {
+    
+    if (Object.entries(data)) {
+        Object.entries(data).forEach(entry => {
             let [key, value] = entry;
             const {price, image} = prices_and_images[key];
             let total = Number(document.querySelector("#price-total").innerHTML)
@@ -34,6 +27,36 @@ const shoppingCart = async () => {
 //********************************************* /SHOP **************************************************/
     // if (document.URL === process.env.URL + "/shop") { 
     if (document.URL === "http://localhost:3000/shop" || document.URL === "https://e-shop-lamotte.herokuapp.com/shop") {
+
+        Object.entries(prices_and_images).forEach(entry => {
+            const [key, value] = entry;
+            const {price, image} = prices_and_images[key];
+            document.querySelector('#product-container').insertAdjacentHTML('beforeend', `
+            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <div class="type-lb">
+                            <p class="sale">` + "Sale" + `</p>
+                        </div>
+                        <img src="`+image+`" class="img-fluid" alt="Image">
+                        <div class="mask-icon">
+                            <ul>
+                                <li><a data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-white"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt text-white"></i></a></li>
+                                <li><a data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart text-white"></i></a></li>
+                            </ul>
+                            <a id="`+key+`" class="cart" >Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="why-text">
+                        <h4>`+key+`</h4>
+                        <h5> €`+price+`</h5>
+                    </div>
+                </div>
+            </div>`)
+        })
+    
+
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
                 // Setup for the price cart-side part
@@ -84,17 +107,55 @@ const shoppingCart = async () => {
 /************************************************ /CART ******************************************************/
     // if (document.URL === process.env.URL + "/cart") {
     if (document.URL === "http://localhost:3000/cart" || document.URL === "https://e-shop-lamotte.herokuapp.com/cart") {
-            if (Object.entries(data.articles)) {
-                Object.entries(data.articles).forEach(entry => {
-                    let [key, value] = entry;
+        if (Object.entries(data)) {
+            Object.entries(data).forEach(entry => {
+                let [key, value] = entry;
+                const { price, image } = prices_and_images[key]
+                const tr = document.createElement("tr");
+                tr.setAttribute("id", key + "_tr");
 
-                    const { price, image } = prices_and_images[key]
-                    const tr = document.createElement("tr");
-                    tr.setAttribute("id", key + "_tr");
+                tr.innerHTML = '<td class="thumbnail-img"><a href="#"><img class="img-fluid" src='+ image +' alt="" /></a></td><td class="name-pr"><a href="#">'+key+'</a></td><td class="price-pr"><p id="price_for_total_'+ key +'">€ '+ price +'</p></td><td class="quantity-box"><input id="input_value_'+ key +'" type="number" size="4" value="'+ value +'" min="0" step="1" class="c-input-text qty text"></td><td class="total-pr"><p id="total_'+ key +'">€ '+ (value*price).toFixed(2) +'</p></td><td class="remove-pr"><a id="remove_product_'+key+'" style="color: black; cursor: pointer" ><i class="fas fa-times"></i></a></td>'
+                document.querySelector('#check_purchase').insertBefore(tr, null)
+            });
 
-                    tr.innerHTML = '<td class="thumbnail-img"><a href="#"><img class="img-fluid" src='+ image +' alt="" /></a></td><td class="name-pr"><a href="#">'+key+'</a></td><td class="price-pr"><p id="price_for_total_'+ key +'">€ '+ price +'</p></td><td class="quantity-box"><input id="input_value_'+ key +'" type="number" size="4" value="'+ value +'" min="0" step="1" class="c-input-text qty text"></td><td class="total-pr"><p id="total_'+ key +'">€ '+ (value*price).toFixed(2) +'</p></td><td class="remove-pr"><a id="remove_product_'+key+'" style="color: black; cursor: pointer" ><i class="fas fa-times"></i></a></td>'
-                    document.querySelector('#check_purchase').insertBefore(tr, null)
+            let subtotal = 0;
+            document.querySelectorAll(".total-pr p").forEach(element => {
+                subtotal += Number(element.innerHTML.replace("€ ",""));
+            });
+
+            document.querySelector("#subTotal").innerHTML = subtotal.toFixed(2);
+            document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2)
+            
+        }
+
+        document.querySelectorAll("table input").forEach(element => {
+            element.addEventListener("change", function () {
+                
+                article = this.id.replace("input_value_", "")
+                amount = Number(document.querySelector("#input_value_"+ article).value)
+                price = Number(document.querySelector("#price_for_total_"+ article).innerHTML.replace("€ ",""));
+                document.querySelector("#total_" + article).innerHTML = "€ " + (amount*price).toFixed(2)
+                let subtotal = 0;
+                document.querySelectorAll(".total-pr p").forEach(element => {
+                    subtotal += Number(element.innerHTML.replace("€ ",""));
                 });
+
+                document.querySelector("#subTotal").innerHTML = subtotal.toFixed(2);
+                document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2);
+
+                fetch('/changeQuant', { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
+                    body: JSON.stringify({
+                        article,
+                        amount
+                    }),
+                });
+            })
+        });
+
+        document.querySelectorAll(".remove-pr a").forEach(link => {
+            link.addEventListener("click", function () {
+                let article = this.id.replace("remove_product_", "");
+                document.querySelector("#"+ article + "_tr").remove();
 
                 let subtotal = 0;
                 document.querySelectorAll(".total-pr p").forEach(element => {
@@ -102,61 +163,23 @@ const shoppingCart = async () => {
                 });
 
                 document.querySelector("#subTotal").innerHTML = subtotal.toFixed(2);
-                document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2)
-                
-            }
+                document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2);
 
-            document.querySelectorAll("table input").forEach(element => {
-                element.addEventListener("change", function () {
-                    
-                    article = this.id.replace("input_value_", "")
-                    amount = Number(document.querySelector("#input_value_"+ article).value)
-                    price = Number(document.querySelector("#price_for_total_"+ article).innerHTML.replace("€ ",""));
-                    document.querySelector("#total_" + article).innerHTML = "€ " + (amount*price).toFixed(2)
-                    let subtotal = 0;
-                    document.querySelectorAll(".total-pr p").forEach(element => {
-                        subtotal += Number(element.innerHTML.replace("€ ",""));
-                    });
-
-                    document.querySelector("#subTotal").innerHTML = subtotal.toFixed(2);
-                    document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2);
-
-                    fetch('/changeQuant', { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
-                        body: JSON.stringify({
-                            article,
-                            amount
-                        }),
-                    });
-                })
-            });
-
-            document.querySelectorAll(".remove-pr a").forEach(link => {
-                link.addEventListener("click", function () {
-                    let article = this.id.replace("remove_product_", "");
-                    document.querySelector("#"+ article + "_tr").remove();
-
-                    let subtotal = 0;
-                    document.querySelectorAll(".total-pr p").forEach(element => {
-                        subtotal += Number(element.innerHTML.replace("€ ",""));
-                    });
-
-                    document.querySelector("#subTotal").innerHTML = subtotal.toFixed(2);
-                    document.querySelector("#grandTotal").innerHTML= subtotal.toFixed(2);
-
-                    fetch('/changeQuant', { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
-                        body: JSON.stringify({
-                            article,
-                            amount:0
-                        }),
-                    })
+                fetch('/changeQuant', { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
+                    body: JSON.stringify({
+                        article,
+                        amount:0
+                    }),
                 })
             })
+        })
     }
 /******************************************* /CHECKOUT ********************************************************/
     // if (document.URL === process.env.URL + "/checkout") {
     if (document.URL === "http://localhost:3000/checkout" || document.URL === "https://e-shop-lamotte.herokuapp.com/checkout") {
-        if (Object.entries(data.articles)) {
-            Object.entries(data.articles).forEach(entry => {
+        console.log(data);
+        if (Object.entries(data)) {
+            Object.entries(data).forEach(entry => {
                 let [key, value] = entry;
 
                 const { price, image } = prices_and_images[key]
@@ -198,13 +221,42 @@ const shoppingCart = async () => {
             document.querySelector("#firstName").value = finalFormData.firstname
             document.querySelector("#lastName").value = finalFormData.lastname
             document.querySelector("#email").value = finalFormData.email
+
+            const responseAPI = await fetch('https://restcountries.eu/rest/v2/all')
+            const dataAPI = await responseAPI.json();
+            dataAPI.forEach(element => {
+                document.querySelector("#country").insertAdjacentHTML('beforeend', "<option value="+ element.name +">"+ element.name +"</option>")
+            });
+            
+            const response = await fetch('/setAddressPayment', { method: 'POST' });
+            const dataAddrPay = await response.json();
+            if (dataAddrPay) {
+                Object.entries(dataAddrPay).forEach(entries => { 
+                    let [key, value] = entries
+                    switch (key) {
+                        case "method" :
+                            document.querySelectorAll('input[name="method"]').forEach(input=> {
+                                if (input.id === dataAddrPay.method) {
+                                    input.checked = true
+                                }
+                            })
+                            break;
+                        case "expiration" :
+                            const expiration = new Date(Date.parse(dataAddrPay.expiration));
+                            
+                            document.querySelector("#expiration").value = expiration.getFullYear().toString() + '-' + 
+                            (expiration.getMonth() + 1).toString().padStart(2, 0) + '-' + expiration.getDate().toString().padStart(2, 0);
+                            break;
+                        default :
+                        console.log(key);
+                            document.querySelector("#"+key).value = value;
+                    }
+                })
+            }
+            
         }
 
-        const responseAPI = await fetch('https://restcountries.eu/rest/v2/all')
-        const dataAPI = await responseAPI.json();
-        dataAPI.forEach(element => {
-            document.querySelector("#countries").insertAdjacentHTML('beforeend', "<option value="+ element.name +">"+ element.name +"</option>")
-        });
+        
 
         document.querySelector("#FinalOrder").addEventListener("click", () => {
             const formFields = ["#firstName", "#lastName", "#email", "#address", "#address2", "#zip", "#cc-name", "#cc-number", "#cc-expiration", "#cc-cvv"];

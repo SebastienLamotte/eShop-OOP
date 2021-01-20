@@ -10,6 +10,8 @@ if (document.URL === "http://localhost:3000/user" || document.URL === "https://e
         const password2 = document.querySelector("#password2").value;
         const password_current = document.querySelector("#password_current").value;
 
+        
+
         if (password_current ==="") {
             errors.push("Current password is required!")
         }
