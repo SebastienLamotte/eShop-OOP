@@ -81,7 +81,7 @@ document.querySelector("#search-bar").addEventListener("keydown", async (e)=> {
                 document.querySelector("#ul_modal").insertAdjacentHTML("beforeend", '<li><h2 class="text-center">No result</h2></li>');
             } else {
                 found.forEach(element => {
-                        document.querySelector("#ul_modal").insertAdjacentHTML("beforeend",'<li class="my-4">'+ element +'</li>');
+                        document.querySelector("#ul_modal").insertAdjacentHTML("beforeend",'<li class="my-4">'+ element +'</li><hr>');
                 });
             }
             const responseFound = await fetch('/found', { method: 'POST', headers: {"Content-type": "application/json; charset=UTF-8"},

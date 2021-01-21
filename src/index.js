@@ -6,6 +6,8 @@ const app = express();
 const hbs = require('hbs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const mongoSanitize = require('express-mongo-sanitize');
+
 
 // Require routers
 const simple_get_router = require('./routers/simple-get-router');
@@ -41,6 +43,8 @@ app.use(session({
 // Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(mongoSanitize());
+
 
 // Setup routers
 app.use(logReg_router);

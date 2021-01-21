@@ -8,8 +8,6 @@ const fetchData = async (url) => {
 const shoppingCart = async () => {
     const data = await fetchData('/initCart');
     const prices_and_images = await fetchData('/products')
-    
-    
     if (Object.entries(data)) {
         Object.entries(data).forEach(entry => {
             let [key, value] = entry;
@@ -18,7 +16,8 @@ const shoppingCart = async () => {
             document.querySelector("#price-total").innerHTML = (price*value + total).toFixed(2);
             const li = document.createElement("li");
             li.setAttribute("id", key + "_li");
-            li.innerHTML = '<a href="/shop-detail" class="photo"><img src='+ image +' class="cart-thumb" alt="" /></a><h6><a href="/shop-detail">'+ key +'</a></h6><p><span id="amount_'+ key +'">'+ value +'</span>x - <span class="price">€'+ price +'</span> - Total: €<span id="article_total_'+key+'">'+ (price*value).toFixed(2) +'</span></p>'
+            li.innerHTML = `<a href="/shop-detail" class="photo"><img src=${image} class="cart-thumb" alt="" /></a><h6><a href="/shop-detail">${key}</a></h6><p><span id="amount_${key}">
+            ${value}</span>x - <span class="price">€${price}</span> - Total: €<span id="article_total_${key}">${(price*value).toFixed(2)}</span></p>`
             document.querySelector(".cart-list").insertBefore(li, document.querySelector(".total") )
             document.querySelector(".badge").innerHTML = Number(document.querySelector(".badge").innerHTML) + value
         });
@@ -28,6 +27,8 @@ const shoppingCart = async () => {
     // if (document.URL === process.env.URL + "/shop") { 
     if (document.URL === "http://localhost:3000/shop" || document.URL === "https://e-shop-lamotte.herokuapp.com/shop") {
 
+        document.querySelector('#quantity-products').innerHTML = Object.keys(prices_and_images).length
+        // Create the block for product with image price and so on
         Object.entries(prices_and_images).forEach(entry => {
             const [key, value] = entry;
             const {price, image} = prices_and_images[key];
@@ -38,43 +39,73 @@ const shoppingCart = async () => {
                         <div class="type-lb">
                             <p class="sale">` + "Sale" + `</p>
                         </div>
-                        <img src="`+image+`" class="img-fluid" alt="Image">
+                        <img src="${image}" class="img-fluid" alt="Image">
                         <div class="mask-icon">
-                            <ul>
-                                <li><a data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye text-white"></i></a></li>
-                                <li><a data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt text-white"></i></a></li>
-                                <li><a data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart text-white"></i></a></li>
-                            </ul>
-                            <a id="`+key+`" class="cart" >Add to Cart</a>
+                            <a class="cart ${key}" >Add to Cart</a>
                         </div>
                     </div>
                     <div class="why-text">
-                        <h4>`+key+`</h4>
-                        <h5> €`+price+`</h5>
+                        <h4>${key}</h4>
+                        <h5> €${price}</h5>
                     </div>
                 </div>
             </div>`)
-        })
-    
 
+            document.querySelector('#list-view').insertAdjacentHTML('beforeend', `
+            <div class="list-view-box">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                        <div class="products-single fix">
+                            <div class="box-img-hover">
+                                <div class="type-lb">
+                                    <p class="sale">Sale</p>
+                                </div>
+                                <img src="${image}" class="img-fluid" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                        <div class="why-text full-width">
+                            <h4>${key}</h4>
+                            <h5> € ${price}</h5>
+                            <p>Integer tincidunt aliquet nibh vitae dictum. In turpis sapien, imperdiet quis magna nec, iaculis ultrices ante. Integer vitae suscipit nisi. Morbi dignissim risus sit amet orci porta, eget aliquam purus
+                                sollicitudin. Cras eu metus felis. Sed arcu arcu, sagittis in blandit eu, imperdiet sit amet eros. Donec accumsan nisi purus, quis euismod ex volutpat in. Vestibulum eleifend eros ac lobortis aliquet.
+                                Suspendisse at ipsum vel lacus vehicula blandit et sollicitudin quam. Praesent vulputate semper libero pulvinar consequat. Etiam ut placerat lectus.</p>
+                            <a class="btn hvr-hover cart ${key}">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`)
+        
+        })
+
+        
+    
+        // Add event listener to add article to the cart
         document.querySelectorAll('.cart').forEach(element => {
             element.addEventListener("click", function (e) {
-                // Setup for the price cart-side part
-                const price = Number(this.parentNode.parentNode.parentNode.querySelector(".why-text h5").innerHTML.replace("€", ""));
+                // Setup for the prices cart-side part
+                let article;
+                if (this.className.includes('btn')) {
+                    article = this.className.replace('btn hvr-hover cart ', '');
+                } else {
+                    article = this.className.replace('cart ', '');
+                }
+                const {price, image} = prices_and_images[article];
                 let total = Number(document.querySelector("#price-total").innerHTML);
                 document.querySelector("#price-total").innerHTML = (price + total).toFixed(2);
-                
+                let amount=1;
                 // Setup to insert the new item in the cart-sidebar
-                if (document.querySelector("#" + this.id + "_li")) {
-                    let amount = Number(document.querySelector("#amount_" + this.id).innerHTML)
+                if (document.querySelector("#" + article + "_li")) {
+                    amount = Number(document.querySelector("#amount_" + article).innerHTML)
                     amount ++;
-                    document.querySelector("#amount_" + this.id).innerHTML = amount
-                    document.querySelector("#article_total_" + this.id).innerHTML = (amount * price).toFixed(2)
+                    document.querySelector("#amount_" + article).innerHTML = amount
+                    document.querySelector("#article_total_" + article).innerHTML = (amount * price).toFixed(2)
                 } else {
                     const li = document.createElement("li")
-                    li.setAttribute("id", this.id + "_li")
-                    const img = this.parentNode.parentNode.querySelector("img").src
-                    li.innerHTML = '<a href="/shop-detail" class="photo"><img src='+ img+' class="cart-thumb" alt="" /></a><h6><a href="/shop-detail">'+this.id+'</a></h6><p><span id="amount_'+this.id+'">1</span>x - <span class="price">€'+price+'</span> - Total: €<span id="article_total_'+ this.id +'">'+price+'</span></p>'
+                    li.setAttribute("id", article + "_li")
+                    li.innerHTML = `<a href="/shop-detail" class="photo"><img src=${image} class="cart-thumb" alt="" /></a><h6><a href="/shop-detail">${article}
+                    </a></h6><p><span id="amount_${article}">1</span>x - <span class="price">€${price}</span> - Total: €<span id="article_total_${article}">${price}</span></p>`
                     document.querySelector(".cart-list").insertBefore(li, document.querySelector(".total") )
                 }
 
@@ -92,11 +123,11 @@ const shoppingCart = async () => {
                 setTimeout(() => {
                     this.style.color = 'white';
                 }, 500);
-                amount = Number(document.querySelector("#amount_" + this.id).innerHTML)
+                amount = Number(document.querySelector("#amount_" + article).innerHTML)
                 // Sending the data of the purchase to the backend
                 fetch("/addToCart", { method: "POST", headers: {"Content-type": "application/json; charset=UTF-8"},
                     body: JSON.stringify({
-                        name: this.id,
+                        name: article,
                         amount
                     }),
                 })
@@ -130,11 +161,34 @@ const shoppingCart = async () => {
 
         document.querySelectorAll("table input").forEach(element => {
             element.addEventListener("change", function () {
+                let oldValue = this.defaultValue;
+                this.defaultValue=this.value;
+                let article = this.id.replace("input_value_", "")
+                let amount = Number(this.value)
+                let price = prices_and_images[article].price
+
+                // Modify the badge (little number near the image of card on the top right corner of the screen) when modifying the amount
+                let badge = document.querySelector(".badge").innerHTML
+                badge = Number(badge) + (this.value - oldValue)
+                if (badge === 0) {
+                    document.querySelector(".badge").innerHTML = ""
+                } else {
+                    document.querySelector(".badge").innerHTML = badge
+                }
+                // Modify the side-cart
+                if (document.querySelector("#" + article + "_li")) {
+                    document.querySelector("#amount_" + article).innerHTML = amount
+                    document.querySelector("#article_total_" + article).innerHTML = (amount * price).toFixed(2)
+                }
                 
-                article = this.id.replace("input_value_", "")
-                amount = Number(document.querySelector("#input_value_"+ article).value)
-                price = Number(document.querySelector("#price_for_total_"+ article).innerHTML.replace("€ ",""));
+                // Modify the side-cart
+                let total = Number(document.querySelector("#price-total").innerHTML);
+                document.querySelector("#price-total").innerHTML = (price * (this.value - oldValue) + total).toFixed(2);
+
+
+                // Modify the articles on the center of the page
                 document.querySelector("#total_" + article).innerHTML = "€ " + (amount*price).toFixed(2)
+
                 let subtotal = 0;
                 document.querySelectorAll(".total-pr p").forEach(element => {
                     subtotal += Number(element.innerHTML.replace("€ ",""));
@@ -152,11 +206,26 @@ const shoppingCart = async () => {
             })
         });
 
+
         document.querySelectorAll(".remove-pr a").forEach(link => {
             link.addEventListener("click", function () {
                 let article = this.id.replace("remove_product_", "");
-                document.querySelector("#"+ article + "_tr").remove();
+                amount = Number(document.querySelector("#input_value_"+ article).value)
+                let badge = document.querySelector(".badge").innerHTML
+                badge = Number(badge) - amount
+                if (badge === 0) {
+                    document.querySelector(".badge").innerHTML = ""
+                } else {
+                    document.querySelector(".badge").innerHTML = badge
+                }
 
+                //Modify the side cart
+                document.querySelector("#"+ article + "_tr").remove();
+                document.querySelector(`#${article}_li`).remove();
+                document.querySelector(`#price-total`).innerHTML =  (Number(document.querySelector(`#price-total`).innerHTML) - prices_and_images[article].price * amount).toFixed(2)
+                
+
+                
                 let subtotal = 0;
                 document.querySelectorAll(".total-pr p").forEach(element => {
                     subtotal += Number(element.innerHTML.replace("€ ",""));
