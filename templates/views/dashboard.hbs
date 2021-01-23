@@ -1,0 +1,45 @@
+{{>header}}
+{{>headerBanner}}
+
+
+
+<div class="container my-5">
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Image</th>
+            <th scope="col"></th>
+            <th scope="col">Id</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each products}}
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td><input class={{this.product}} type="text" value={{this.product}}></td>
+                    <td><input class={{this.product}} type="text" value={{this.price}}></td>
+                    <td><input class={{this.product}} type="image" src={{this.image}} width="50"></td>
+                    <td><input class={{this.product}} style="display:none;" type="file"></td>
+                    <td><input class={{this.product}} type="text" value={{this._id}} readonly></td>
+                </tr>
+            {{/each}}
+
+            <tr>
+                <th scope="row"></th>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="image" width='50'></td>
+                <td><input type="file" style="display:none;"></td>
+                <td><input type="text" readonly></td>
+            </tr> 
+        </tbody>
+    </table>
+
+</div>
+
+
+{{>footer}}
