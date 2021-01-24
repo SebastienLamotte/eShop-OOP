@@ -38,8 +38,8 @@ router.post('/register', async (req, res) => {
             host: "smtp.mailtrap.io",
             port: 2525,
             auth: {
-              user: "82bdd29f238491",
-              pass: "b777c1a11e4111"
+              user: process.env.MAIL_USER,
+              pass: process.env.MAIL_PASS
             }
         });
 
