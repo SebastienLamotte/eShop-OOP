@@ -34,28 +34,21 @@ router.post('/register', async (req, res) => {
         // delete req.session.user.password;
         // req.session.connected = true;
         req.session.reg_success = "A mail of confirmation has been sent, check your spams!";
-        let transporter = nodemailer.createTransport({
-            host: "smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-              user: process.env.MAIL_USER,
-              pass: process.env.MAIL_PASS
-            }
-        });
+        // let transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //       user: process.env.MAIL_USER,
+        //       pass: process.env.MAIL_PASS
+        //     }
+        // });
 
-        let info = await transporter.sendMail({
-            from: '"Fred Foo 👻" <bidon@example.com>', // sender address
-            to: "slamotte@outlook.com, sebastien.lamotte87@gmail.com", // list of receivers
-            subject: "Hello ✔", // Subject line
-            text: "Hello world?", // plain text body
-            html: "<b>Hello world?</b>", // html body
-        });
-
-        // console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-        // Preview only available when sending through an Ethereal account
-        // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        // let info = await transporter.sendMail({
+        //     from: process.env.MAIL_USER, // sender address
+        //     to: req.body.email_reg, // list of receivers
+        //     subject: "Welcome ✔", // Subject line
+        //     text: "Hello world?", // plain text body
+        //     html: "<b>Hello world?</b>", // html body
+        // });
 
     } catch (e) {
         req.session.reg_error = (e.code === 11000) ? "email already exists" : "Server problem, come back in a moment please!";
