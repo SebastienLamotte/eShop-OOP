@@ -12,4 +12,4 @@ https://e-shop-lamotte.herokuapp.com/
 </ul>
 
 For the admin account, add it in the user database manually.
-It will unable you to add your differents products !
+It will unable you to add your different products !
