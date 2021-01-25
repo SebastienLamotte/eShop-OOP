@@ -51,10 +51,10 @@ app.use(mongoSanitize());
 
 
 // Setup routers
+app.use(admin_router);
 app.use(logReg_router);
 app.use(newsletter_router);
 app.use(cart_router);
-app.use(admin_router);
 app.use(user_edit_router);
 app.use(addressPayment_edit_router)
 app.use(searchBar_router);

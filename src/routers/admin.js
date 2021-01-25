@@ -2,18 +2,33 @@ const express = require('express');
 const router = new express.Router();
 const User = require('../db/mongoose_models/User');
 const Product = require('../db/mongoose_models/Product');
+const auth = require('./../middlewares/auth');
 const adminAuth = require('./../middlewares/adminAuth');
+
+router.get('/my-account', auth, async (req, res, next) => {
+    const user = await User.findById(req.session.user._id)
+    if (!user.admin) {
+        return next()
+    }
+    res.render('my-account', {
+        connected: req.session.connected,
+        banner: 'MY ACCOUNT',
+        admin: true
+    })
+})
 
 router.get('/dashboard', adminAuth, async (req, res) => {
     const user = await User.findById(req.session.user._id)
     if (!user.admin) {
         return res.render('/404', {
+            connected: req.session.connected,
             banner: 'PAGE NOT FOUND'
         });
     }
     
     const products = await Product.find();
     res.render('dashboard', {
+        connected: req.session.connected,
         banner: "DASHBOARD",
         admin: true,
         products
